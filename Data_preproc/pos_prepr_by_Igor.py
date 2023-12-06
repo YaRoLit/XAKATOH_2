@@ -1,4 +1,34 @@
+"""
+ Файл содержит функции для очистки данных первых 6 столбцов датасета и создания новых признаков.
+
+ Чтобы импортировать эти функции в свой файл используйте строку:
+ from pos_prepr_by_Igor import *
+
+ Если файл лежит в отдельной папке, то нужно сделать примерно так (подставив нужный путь):
+
+ import sys 
+ import os
+ sys.path.append(os.path.abspath("/home/igor/Plastov/XAKATOH_2/Data_preproc"))
+ from pos_prepr_by_Igor import *
+"""
+
+
 import pandas as pd
+import numpy as np
+
+
+
+def drop_completely_nan_rows(df:pd.DataFrame) -> pd.DataFrame:
+    """
+    Функция убирает строки таблицы целиком состоящие из nan.
+    """
+
+    d = df.copy()
+
+    # Убираем строки таблицы целиком состоящие из nan.
+    d = d.dropna(axis=0, how='all')
+   
+    return d
 
 # ### Очистка признака *BirthDate*
 #BirthDate
@@ -8,10 +38,10 @@ def BirthDate_feature_cleaner(df:pd.DataFrame)->pd.Series:
     Проверка и заполнение модой пропусков фичи 'BirthDate'.
     """
     mc = df.copy()
-
+    mc = drop_completely_nan_rows(mc)
     fch = 'BirthDate' # Имя фичи.
     f = pd.to_datetime(mc[fch], format='%Y-%m-%d')
-    bad_rows = len(f[f.isna() == True])
+    bad_rows = len(f[f.isna()])
     m = f.mode()
     print("Mode =", m)
     f[f.isna()] = m 
@@ -21,16 +51,16 @@ def BirthDate_feature_cleaner(df:pd.DataFrame)->pd.Series:
         print(f'Фича <{fch}> не содержит пропусков.')
     return f
 
-def test_BirthDate_feature_cleaner():
+def test_BirthDate_feature_cleaner(df):
     md = df.copy()
-    md = md.dropna()
+    md = drop_completely_nan_rows(md)
     md.loc[10,'BirthDate'] = np.nan # Портим одно значение затем проверяем, что оно было исправлено.
     print(md.iloc[10]['BirthDate'] )
     res = BirthDate_feature_cleaner(md)
     print(res)
     print(type(res))
 
-#test_BirthDate_feature_cleaner()
+#test_BirthDate_feature_cleaner(df)
 
 def get_zodiac(month: int, date:int)->str:
    value="просто животное"
@@ -75,7 +105,7 @@ def zodiac_feature_creator(df:pd.DataFrame)->pd.Series:
 
 def test_zodiac_feature_creator():
     md = df.copy()
-    md = md.dropna()
+    md = drop_completely_nan_rows(md)
     res = zodiac_feature_creator(md)
     print(res)
 
@@ -94,7 +124,7 @@ def education_feature_cleaner(df:pd.DataFrame)->pd.Series:
     mc = df.copy()
 
     fch = 'education' # Имя фичи.
-    f = df[fch].copy()
+    f = mc[fch]
     f = f.str.lower()
     f = f.str.strip()
     bad_rows = len(f[f.isna()])
@@ -110,7 +140,7 @@ def education_feature_cleaner(df:pd.DataFrame)->pd.Series:
 
 def test_education_feature_cleaner():
     md = df.copy()
-    md = md.dropna()
+    md = drop_completely_nan_rows(md)
     md.loc[10,'education'] = np.nan # Портим одно значение затем проверяем, что оно было исправлено.
     print(md.iloc[10]['education'] )
     res = education_feature_cleaner(md)
@@ -158,7 +188,7 @@ def educationDig_feature_creator(df:pd.DataFrame)->pd.Series:
 
 def test_educationDig_feature_creator():
     md = df.copy()
-    md = md.dropna()
+    md = md.drop_compleately_nan_rows(md)
     
     res = educationDig_feature_creator(md)
     print(res)
@@ -194,7 +224,7 @@ def employment_status_feature_cleaner(df:pd.DataFrame)->pd.Series:
 
 def test_employment_status_feature_cleaner():
     md = df.copy()
-    md = md.dropna()
+    md = md.drop_compleately_nan_rows(md)
     md.loc[10,'employment status'] = np.nan # Портим одно значение затем проверяем, что оно было исправлено.
     print(md.iloc[10]['employment status'] )
     res = employment_status_feature_cleaner(md)
@@ -236,7 +266,7 @@ def employment_statusDig_feature_creator(df:pd.DataFrame)->pd.Series:
 
 def test_employment_statusDig_feature_creator():
     md = df.copy()
-    md = md.dropna()
+    md = md.drop_compleately_nan_rows(md)
     md.loc[10,'employment status'] = np.nan # Портим одно значение затем проверяем, что оно было исправлено.
     print(md.iloc[10]['employment status'] )
     res = employment_statusDig_feature_creator(md)
@@ -273,7 +303,7 @@ def Value_feature_cleaner(df:pd.DataFrame)->pd.Series:
 
 def test_Value_feature_cleaner():
   md = df
-  md = md.dropna()
+  md = md.drop_compleately_nan_rows(md)
   md.loc[10,'Value'] = np.nan # Портим одно значение затем проверяем, что оно было исправлено.
   print(md.iloc[10]['Value'] )
   res = Value_feature_cleaner(md)
@@ -335,7 +365,7 @@ def ValueDig_feature_creator(df:pd.DataFrame)->pd.Series:
 
 def test_ValueDig_feature_creator():
   md = df.copy()
-  md = md.dropna()
+  md = md.drop_compleately_nan_rows(md)
   md ['BirthDate'] = BirthDate_feature_cleaner(md)
   res = ValueDig_feature_creator(md)
   print(res.value_counts())
@@ -376,7 +406,7 @@ def JobStartDate_feature_cleaner(df:pd.DataFrame)->pd.Series:
 
 def test_JobStartDate_feature_cleaner():
    md =df.copy()
-   md = md.dropna()
+   md = md.drop_compleately_nan_rows(md)
    f = JobStartDate_feature_cleaner(md)
    print("res=", f)
 
@@ -713,7 +743,7 @@ def CarierLevel_feature_creator(df:pd.DataFrame)->pd.Series:
 
 def test_CarierLevel_feature_creator():
    md =df.copy()
-   md = md.dropna()
+   md = md.drop_compleately_nan_rows(md)
    f = CarierLevel_feature_creator(md)
    print("res=", f.value_counts())
 
@@ -755,7 +785,7 @@ def CarierLevelDig_feature_creator(df:pd.DataFrame)->pd.Series:
 
 def test_CarierLevelDig_feature_creator():
    md =df.copy()
-   md = md.dropna()
+   md = md.drop_compleately_nan_rows(md)
    f = CarierLevelDig_feature_creator(md)
    print("res=", f.value_counts())
 
@@ -787,8 +817,8 @@ def CarierVelocity_feature_creator(df:pd.DataFrame)->pd.Series:
    return carier_velocity
 
 def test_CarierVelocity_feature_creator():
-  md = df
-  md = md.dropna()
+  md = df.copy()
+  md = drop_completely_nan_rows(md)
   print(CarierVelocity_feature_creator(md))
 
 #test_CarierVelocity_feature_creator()
@@ -799,7 +829,7 @@ def clean_features(df:pd.DataFrame)->pd.DataFrame:
    Функция выполняет очистку фич.
    """
 
-   df = df.dropna()
+   df = drop_completely_nan_rows(df)
    
    # Очистка фич.
    df['BirthDate'] = BirthDate_feature_cleaner(df)
@@ -815,7 +845,7 @@ def make_features(df:pd.DataFrame)->pd.DataFrame:
    Функция выполняет добавление новых фич.
    """
 
-   df = df.dropna()
+   df = drop_completely_nan_rows(df)
    
    # Добавление фич.
    df['educationDig_feature_creator'] = educationDig_feature_creator(df)
