@@ -189,7 +189,7 @@ def educationDig_feature_creator(df:pd.DataFrame)->pd.Series:
 
 def test_educationDig_feature_creator():
     md = df.copy()
-    md = md.drop_compleately_nan_rows(md)
+    md = drop_completely_nan_rows(md)
     
     res = educationDig_feature_creator(md)
     print(res)
@@ -223,7 +223,7 @@ def employment_status_feature_cleaner(df:pd.DataFrame)->pd.Series:
 
 def test_employment_status_feature_cleaner():
     md = df.copy()
-    md = md.drop_compleately_nan_rows(md)
+    md = drop_completely_nan_rows(md)
     md.loc[10,'employment status'] = np.nan # Портим одно значение затем проверяем, что оно было исправлено.
     print(md.iloc[10]['employment status'] )
     res = employment_status_feature_cleaner(md)
@@ -268,7 +268,7 @@ def employment_statusDig_feature_creator(df:pd.DataFrame)->pd.Series:
 
 def test_employment_statusDig_feature_creator():
     md = df.copy()
-    md = md.drop_compleately_nan_rows(md)
+    md = drop_completely_nan_rows(md)
     md.loc[10,'employment status'] = np.nan # Портим одно значение затем проверяем, что оно было исправлено.
     print(md.iloc[10]['employment status'] )
     res = employment_statusDig_feature_creator(md)
@@ -301,9 +301,9 @@ def Value_feature_cleaner(df:pd.DataFrame)->pd.Series:
         print(f'Фича <{fch}> не содержит пропусков.')
     return f
 
-def test_Value_feature_cleaner():
-  md = df
-  md = md.drop_compleately_nan_rows(md)
+def test_Value_feature_cleaner(df):
+  md = df.copy()
+  md = drop_completely_nan_rows(md)
   md.loc[10,'Value'] = np.nan # Портим одно значение затем проверяем, что оно было исправлено.
   print(md.iloc[10]['Value'] )
   res = Value_feature_cleaner(md)
@@ -368,7 +368,7 @@ def ValueDig_feature_creator(df:pd.DataFrame)->pd.Series:
 
 def test_ValueDig_feature_creator():
   md = df.copy()
-  md = md.drop_compleately_nan_rows(md)
+  md = drop_completely_nan_rows(md)
   md ['BirthDate'] = BirthDate_feature_cleaner(md)
   res = ValueDig_feature_creator(md)
   print(res.value_counts())
@@ -408,8 +408,8 @@ def JobStartDate_feature_cleaner(df:pd.DataFrame)->pd.Series:
     return f
 
 def test_JobStartDate_feature_cleaner():
-   md =df.copy()
-   md = md.drop_compleately_nan_rows(md)
+   md = df.copy()
+   md = drop_completely_nan_rows(md)
    f = JobStartDate_feature_cleaner(md)
    print("res=", f)
 
@@ -745,8 +745,8 @@ def CarierLevel_feature_creator(df:pd.DataFrame)->pd.Series:
     return CarierLevel
 
 def test_CarierLevel_feature_creator():
-   md =df.copy()
-   md = md.drop_compleately_nan_rows(md)
+   md = df.copy()
+   md = drop_completely_nan_rows(md)
    f = CarierLevel_feature_creator(md)
    print("res=", f.value_counts())
 
@@ -787,8 +787,8 @@ def CarierLevelDig_feature_creator(df:pd.DataFrame)->pd.Series:
     return f1
 
 def test_CarierLevelDig_feature_creator():
-   md =df.copy()
-   md = md.drop_compleately_nan_rows(md)
+   md = df.copy()
+   md = drop_completely_nan_rows(md)
    f = CarierLevelDig_feature_creator(md)
    print("res=", f.value_counts())
 
