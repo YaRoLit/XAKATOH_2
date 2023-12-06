@@ -125,8 +125,6 @@ def education_feature_cleaner(df:pd.DataFrame)->pd.Series:
 
     fch = 'education' # Имя фичи.
     f = mc[fch]
-    f = f.str.lower()
-    f = f.str.strip()
     bad_rows = len(f[f.isna()])
 
     mode = f[~f.isna()].mode() 
@@ -158,7 +156,10 @@ def educationDig_feature_creator(df:pd.DataFrame)->pd.Series:
     mc = df.copy()
     f = education_feature_cleaner(mc)
 
+    f = f.str.lower()
+    f = f.str.strip()
     fch = 'education' # Имя фичи.
+
     bad_rows = len(f[f.isna() == True])
 
     # Преобразуем образование в числовые шкалу, чем больше тем лучше.
@@ -209,8 +210,6 @@ def employment_status_feature_cleaner(df:pd.DataFrame)->pd.Series:
     fch = 'employment status' # Имя фичи.
     f = df[fch].copy()
     initial_bad_rows = len(f[f.isna()])
-    f = f.str.lower()
-    f = f.str.strip()
     bad_rows = len(f[f.isna()])
     
     mode = f[~f.isna()].mode()
@@ -241,6 +240,9 @@ def employment_statusDig_feature_creator(df:pd.DataFrame)->pd.Series:
 
     mc = df.copy()
     f = employment_status_feature_cleaner(mc)
+
+    f = f.str.lower()
+    f = f.str.strip()
     fch = 'employment status' # Имя фичи.
 
     # Преобразуем занятость в числовую шкалу от 0.001 до 1.,
@@ -285,8 +287,6 @@ def Value_feature_cleaner(df:pd.DataFrame)->pd.Series:
 
     fch = 'Value' # Имя фичи.
     f = mc[fch]
-    f = f.str.lower()
-    f = f.str.strip()
     
     mask = f.isna()
     initial_bad_rows = len(f[mask])
@@ -322,6 +322,9 @@ def ValueDig_feature_creator(df:pd.DataFrame)->pd.Series:
     mc = df.copy()
 
     f = Value_feature_cleaner(mc)
+
+    f = f.str.lower()
+    f = f.str.strip()
     fch = 'Value' # Имя фичи.
     
     d = pd.to_datetime(mc['BirthDate'])
