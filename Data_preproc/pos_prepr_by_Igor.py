@@ -121,10 +121,12 @@ def education_feature_cleaner(df:pd.DataFrame)->pd.Series:
     Преобразуем образование в числовые шкалу от 0.1 до 1.,
     чем больше тем лучше образование.
     """
-    mc = df.copy()
+    #mc = df.copy()
+    mc = df.loc[:, :].copy()
 
     fch = 'education' # Имя фичи.
-    f = mc[fch]
+    #f = mc[fch]
+    f = mc.loc[:, fch].copy()
     bad_rows = len(f[f.isna()])
 
     mode = f[~f.isna()].mode() 
@@ -187,17 +189,15 @@ def educationDig_feature_creator(df:pd.DataFrame)->pd.Series:
         print(f'Фича <{fch}> не содержит пропусков.')
     return f
 
-def test_educationDig_feature_creator():
+def test_educationDig_feature_creator(df):
     md = df.copy()
     md = drop_completely_nan_rows(md)
-    
     res = educationDig_feature_creator(md)
     print(res)
 
-#test_educationDig_feature_creator()
+#test_educationDig_feature_creator(df)
 
 # ### Очистка признака *employment status*
-
 #employment_status
 
 def employment_status_feature_cleaner(df:pd.DataFrame)->pd.Series:
@@ -283,16 +283,18 @@ def Value_feature_cleaner(df:pd.DataFrame)->pd.Series:
     Проверка и очистка фичи 'Value'.
     пропуски трудового стажа  заполняются медианным значением.
     """
-    mc = df.copy()
+    #mc = df.copy()
+    mc = df.loc[:, :].copy()
 
     fch = 'Value' # Имя фичи.
-    f = mc[fch]
+    f = mc[fch].copy()
     
     mask = f.isna()
     initial_bad_rows = len(f[mask])
 
     mode = f[~mask].mode()
-    f[mask] = mode
+    #f[mask] = mode
+    f.loc[mask] = mode
 
     bad_rows = len(f[f.isna() == True])
     print(f"Исходное количество nan в фиче <{fch}>: {initial_bad_rows} штук.")
@@ -385,10 +387,11 @@ def JobStartDate_feature_cleaner(df:pd.DataFrame)->pd.Series:
     Вместо NaN подставляется дата рождения увеличенная на случайное целое 17..23 лет.
     """
     mc = df.copy()
+    mc = df.loc[:, :].copy()
 
     fch = 'JobStartDate' # Имя фичи.
 
-    f = mc[fch]
+    f = mc[fch].copy()
     mc['syntJobStartDate'] = pd.to_datetime(mc['BirthDate'])
     mc['syntJobStartDate'] = pd.to_datetime(mc['syntJobStartDate'], format='%Y-%m-%d')
     mc['syntJobStartDate'] =  mc['syntJobStartDate'] + pd.offsets.DateOffset(years=(17 + np.random.randint(6)))
@@ -396,7 +399,7 @@ def JobStartDate_feature_cleaner(df:pd.DataFrame)->pd.Series:
 
     
     initial_bad_rows = len(f[mask])
-    f[mask] = mc['syntJobStartDate']
+    f.loc[mask] = mc['syntJobStartDate'].copy()
     f = pd.to_datetime(f)
     f = pd.to_datetime(f, format='%Y-%m-%d')
     bad_rows = len(f[f.isna()])
