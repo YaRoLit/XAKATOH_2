@@ -16,7 +16,31 @@
 import pandas as pd
 import numpy as np
 
+def load_data()->pd.DataFrame:
+    """
+    Загружает данные из CSV-файла и возвращает их в виде объекта pandas DataFrame.
+    
+    Возвращает:
+        df (pandas.DataFrame): Загруженные данные в виде DataFrame.
+    """
+    df = pd.read_csv(
+    filepath_or_buffer='cleared_df.csv',
+    sep=';',
+    index_col='SkillFactory_Id',
+    parse_dates=['BirthDate', 'JobStartDate'])
+    return df
 
+def save_temp_data(df:pd.DataFrame):
+    """
+    Сохраняет заданный DataFrame в виде временного CSV файла.
+
+    Параметры:
+    df (pd.DataFrame): DataFrame, который нужно сохранить в виде CSV файла.
+
+    Возвращает:
+    None
+    """
+    df.to_csv("temp.csv", sep=';', index=True)
 
 def drop_completely_nan_rows(df:pd.DataFrame) -> pd.DataFrame:
     """
@@ -119,7 +143,7 @@ def zodiac_feature_creator(df:pd.DataFrame)->pd.Series:
         print(f'Фича <{fch}> не содержит пропусков.')
     return zodiac
 
-def test_zodiac_feature_creator():
+def test_zodiac_feature_creator(df:pd.DataFrame):
     md = df.copy()
     md = drop_completely_nan_rows(md)
     res = zodiac_feature_creator(md)
@@ -328,7 +352,7 @@ def test_Value_feature_cleaner(df):
 
 def ValueDig_feature_creator(df:pd.DataFrame)->pd.Series:
     """
-    Проверка и очистка фичи 'Value'.
+    Создание фичи ValueDig из фичи 'Value'.
     Преобразует трудовой стаж в числовую шкалу от 0.001 до 1.,
     чем больше, тем занятость полнее.
     NaN - заполняются средним значением по соответствующей возрастной группе.
@@ -362,8 +386,10 @@ def ValueDig_feature_creator(df:pd.DataFrame)->pd.Series:
     '6 месяцев - 1 год': 0.075,
     '9 - 10 лет': 0.95,
     '4 - 6 месяцев': 0.042,
-    'менее 4 месяцев': 0.017
+    'менее 4 месяцев': 0.017,
+    '0 месяцев 0 лет': 0.001
     }
+    
 
     # Оцифровываем уровень образования.
     f = f.replace(rate_dict, regex=True)
@@ -372,21 +398,21 @@ def ValueDig_feature_creator(df:pd.DataFrame)->pd.Series:
           rate_dict)
 
     mc[fch] = f
-    
     years = mc['Year'].to_list()
     for y in years:
-      m = mc[mc['Year'] == y][fch].mean()
+      m = mc[mc['Year'] == y][fch].astype(float).mean()
       mask = (mc[fch].isna()) & ( mc['Year'] == y)
       f[mask] = m
-
     return f
 
-def test_ValueDig_feature_creator(df):
+def test_ValueDig_feature_creator(df:pd.DataFrame):
   md = df.copy()
-  md = drop_completely_nan_rows(md)
-  md ['BirthDate'] = BirthDate_feature_cleaner(md)
-  res = ValueDig_feature_creator(md)
-  print(res.value_counts())
+  #md = drop_completely_nan_rows(md)
+  # md ['BirthDate'] = BirthDate_feature_cleaner(md)
+  md['ValueDig'] = ValueDig_feature_creator(md)
+  #print(res.value_counts())
+  save_temp_data(md)
+  return md
 
 #test_ValueDig_feature_creator()
 
