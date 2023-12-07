@@ -10,7 +10,7 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 import nansfiller_by_Yaro
 
 
-CLS_FEATURES = ('education',
+CLS_FEATURES = ['education',
                 'employment status',
                 'Value',
                 'Position',
@@ -19,16 +19,16 @@ CLS_FEATURES = ('education',
                 'ChildCount',
                 'SNILS',
                 'Merch_code',
-                'Loan_amount',
                 'Loan_term',
                 'Goods_category'
-                )
+]
 
-REG_FEATURES = (#'BirthDate',
+REG_FEATURES = [#'BirthDate',
                 #'JobStartDate',
                 'MonthProfit',
                 'MonthExpense',
-                )
+                'Loan_amount'
+]
 
 
 def cat_num_split(df: pd.DataFrame) -> tuple:
@@ -78,12 +78,12 @@ def create_frame_with_nans(df: pd.DataFrame) -> tuple:
 def simple_strategy_nansfiller(df: pd.DataFrame) -> pd.DataFrame:
     '''Заполняем np.NaN простыми стратегиями для примера'''
     df = df.copy()
-    cat_columns, num_columns = cat_num_split(df_test)
+    #cat_columns, num_columns = cat_num_split(df_test)
     df[datetime_columns].fillna(df[datetime_columns].median(), inplace=True)
     cat_imputer = SimpleImputer(strategy='most_frequent')
     num_imputer = SimpleImputer(strategy='mean')
-    df[cat_columns] = cat_imputer.fit_transform(df[cat_columns])
-    df[num_columns] = num_imputer.fit_transform(df[num_columns])
+    df[CLS_FEATURES] = cat_imputer.fit_transform(df[CLS_FEATURES])
+    df[REG_FEATURES] = num_imputer.fit_transform(df[REG_FEATURES])
 
     return df
 
