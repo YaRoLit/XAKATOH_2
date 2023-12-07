@@ -26,8 +26,8 @@ def load_data()->pd.DataFrame:
     df = pd.read_csv(
     filepath_or_buffer='cleared_df.csv',
     sep=';',
-    index_col='SkillFactory_Id',
-    parse_dates=['BirthDate', 'JobStartDate'])
+    index_col='SkillFactory_Id',parse_dates=['BirthDate', 'JobStartDate']
+    )
     return df
 
 def save_temp_data(df:pd.DataFrame):
@@ -555,7 +555,9 @@ def CarierLevel_feature_creator(df:pd.DataFrame)->pd.Series:
       'региональный менеджер',
       'директор по развитию',
       'заведующая отделением',
-      'старший администратор'
+      'старший администратор',
+      'главный технолог',
+      'командир'
     ]
 
     for s in L_4:
@@ -584,7 +586,8 @@ def CarierLevel_feature_creator(df:pd.DataFrame)->pd.Series:
      'командир отделения',
      'старший кладовщик',
      'старший продавец-консультант',
-     'заведующий'
+     'заведующий',
+     'бригадир'
      ]
 
     for s in L_3:
@@ -599,9 +602,12 @@ def CarierLevel_feature_creator(df:pd.DataFrame)->pd.Series:
    'логопед',
    'психолог',
    'воспит',
+   'вос',
    'дизайнер',
    "товаровед",
    "маркетолог",
+   'hr',
+  'кадровый работник',
    "бухгалтер",
    'бухга',
    'бухг'
@@ -631,6 +637,7 @@ def CarierLevel_feature_creator(df:pd.DataFrame)->pd.Series:
    "эксперт",
    "доцент",
    "финансовый консультант",
+   'фин',
    "аналитик",
    'средний медперсонал',
    'маркето',
@@ -640,17 +647,45 @@ def CarierLevel_feature_creator(df:pd.DataFrame)->pd.Series:
    'кассир-контролер',
    'секретарь',
    'риэлтор',
+   'риэ',
+   'риелтор',
    'педагог',
-   'пластический хирург'
+   'пластический хирург',
+   'логопед'
+     "специалист",
+     "спец",
+     "специ",
+     "specialist",
+     'дизайнер',
+     "копирайтер",
+     "педагог до",
+     'Учитель-логопед.',
+     'юрисконсульт'
+    ]
 
-   ]
     for s in L_2:
       f1 = f1.mask(lambda  x : x == s, other = 'СРЕДНЕЕ_ЗВЕНО')
 
     L_1 = [
-     "специалист",
-     "спец",
-     "специ",
+     'Лесной Пожарный',
+     'мастер бровист',
+     'контролер кпп',
+     'бьюти мастер',
+     'мастер ман',
+     'кровельщик',
+     'Мед сестра',
+     'астролог',
+     'турагент',
+     'аниматор',
+     'волонтер',
+     'массажист',
+     'сушильщик',
+     'рядовой',
+     'самелье',
+     'санитар',
+     'медбрат',
+     "уборщик",
+     "сиделка",   
      "водитель",
      "продавец",
      "прода",
@@ -690,14 +725,17 @@ def CarierLevel_feature_creator(df:pd.DataFrame)->pd.Series:
      'медсестра',
      'токарь',
      "офи",
+     'офици',
      'тренер',
      'владелец',
      'психолог-консультант',
      'помощник юриста',
      "швея",
+     'шве',
      "парикмахер",
      "техник",
      'охранник',
+     'охр',
      'няня',
      'косметолог-визажист',
      'сотрудник',
@@ -719,7 +757,14 @@ def CarierLevel_feature_creator(df:pd.DataFrame)->pd.Series:
      'разнорабочая',
      'кладов',
      'комплектовщик',
-     'термист'
+     'термист',
+     'бар',
+     'бариста',
+     'моряк',
+     'стано',
+     'сторож',
+     'таксис',
+     'грузчик'
      ]
 
     for s in L_1:
@@ -728,6 +773,8 @@ def CarierLevel_feature_creator(df:pd.DataFrame)->pd.Series:
     f1 = f1.mask(lambda x : x == "индивидуальный предприниматель", other = 'ИП')
     f1 = f1.mask(lambda x : x == "инд", other = 'ИП')
     f1 = f1.mask(lambda x : x == "ип", other = 'ИП')
+    f1 = f1.mask(lambda x : x == "индив", other = 'ИП')
+
 
     f1 = f1.mask(lambda x : x == "самозанятый", other = 'САМ')
     f1 = f1.mask(lambda x : x == "самозанятая", other = 'САМ')
@@ -736,7 +783,7 @@ def CarierLevel_feature_creator(df:pd.DataFrame)->pd.Series:
     f1=f1.fillna('НЕТ_ДАННЫХ')
 
     Filled = ['ДИР1','ДИР2', 'МЕН1', 'МЕН2','ИП','САМ',
-              'ЗАМДИР','ЗАМНАЧ', 'НИЗШЕЕ_ЗВЕНО', 'СРЕДНЕЕ_ЗВЕНО', 'НЕТ_ДАННЫХ']
+              'ЗАМДИР','ЗАМНАЧ', 'НИЗШЕЕ_ЗВЕНО', 'СРЕДНЕЕ_ЗВЕНО', 'НЕТ_ДАННЫХ', "РЕЗЕРВ"]
 
     # Названия должностей которые входят в некоторую строку.
     f1[f1.str.contains('рабочий')] = 'НИЗШЕЕ_ЗВЕНО'
@@ -777,6 +824,8 @@ def CarierLevel_feature_creator(df:pd.DataFrame)->pd.Series:
     f1[f1.str.contains('монтер')] = 'НИЗШЕЕ_ЗВЕНО'
     f1[f1.str.contains('техник')] = 'НИЗШЕЕ_ЗВЕНО'
     f1[f1.str.contains('директор')] = 'ДИР2'
+    f1[f1.str.contains('безработный')] = 'РЕЗЕРВ'
+    
 
 
     #f1 = f1[~f1.isin(Filled)] # Временно убираем обработанные строки.
@@ -789,8 +838,12 @@ def CarierLevel_feature_creator(df:pd.DataFrame)->pd.Series:
 def test_CarierLevel_feature_creator(df):
    md = df.copy()
    md = drop_completely_nan_rows(md)
-   f = CarierLevel_feature_creator(md)
-   print("res=", f.value_counts())
+   #md['CarierLevel'] = CarierLevel_feature_creator(md)
+   md['CarierLevel'] = CarierLevel_feature_creator(md)
+   print("res=", md['CarierLevel'].value_counts())
+   save_temp_data(md['CarierLevel'])
+   return md
+
 
 
 #test_CarierLevel_feature_creator()
