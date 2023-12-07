@@ -22,17 +22,13 @@ def drop_completely_nan_rows(df:pd.DataFrame) -> pd.DataFrame:
     """
     Функция убирает строки таблицы целиком состоящие из nan.
     """
-
     d = df.copy()
-
     # Убираем строки таблицы целиком состоящие из nan.
     d = d.dropna(axis=0, how='all')
    
     return d
 
 # ### Очистка признака *BirthDate*
-#BirthDate
-
 def BirthDate_feature_cleaner(df:pd.DataFrame)->pd.Series:
     """
     Проверка и заполнение модой пропусков фичи 'BirthDate'.
@@ -52,6 +48,16 @@ def BirthDate_feature_cleaner(df:pd.DataFrame)->pd.Series:
     return f
 
 def test_BirthDate_feature_cleaner(df):
+    """
+    Данная функция используется для проверки функции очистки признака 'BirthDate' в заданном DataFrame.
+    
+    Параметры:
+    - df: pandas DataFrame
+        Входной DataFrame, содержащий признак 'BirthDate'.
+    
+    Возвращает:
+    None
+    """
     md = df.copy()
     md = drop_completely_nan_rows(md)
     md.loc[10,'BirthDate'] = np.nan # Портим одно значение затем проверяем, что оно было исправлено.
@@ -63,6 +69,16 @@ def test_BirthDate_feature_cleaner(df):
 #test_BirthDate_feature_cleaner(df)
 
 def get_zodiac(month: int, date:int)->str:
+   """
+   Возвращает знак зодиака на основе указанного месяца и даты.
+   
+   Аргументы:
+       month (int): Месяц даты.
+       date (int): День даты.
+   
+   Возвращает:
+       str: Знак зодиака, соответствующий указанному месяцу и дате.
+   """ 
    value="просто животное"
    if   ((month==1)  and (date>=20)) or ((month==2 ) and (date<=18)): value="Водолей"
    elif ((month==2)  and (date>=19)) or ((month==3 ) and (date<=20)): value="Рыбы"
@@ -87,9 +103,9 @@ def test_zodiac():
 
 def zodiac_feature_creator(df:pd.DataFrame)->pd.Series:
     """
-    Фича содержит знаки зодиака соответствующие дню и месяцу рождения соискателя кредита.
+    Функция создает фичу содержащую знаки зодиака соответствующие
+    дню и месяцу рождения соискателя кредита.
     """
-
     mc = df.copy()
     f = BirthDate_feature_cleaner(mc)
     fch = 'BirthDate' # Имя фичи.
@@ -112,9 +128,6 @@ def test_zodiac_feature_creator():
 #test_zodiac_feature_creator()
 
 # ### Очистка признака *education*
-
-#education
-
 def education_feature_cleaner(df:pd.DataFrame)->pd.Series:
     """
     Проверка и очистка фичи 'education'.
@@ -138,7 +151,7 @@ def education_feature_cleaner(df:pd.DataFrame)->pd.Series:
         print(f'Фича <{fch}> не содержит пропусков.')
     return f
 
-def test_education_feature_cleaner():
+def test_education_feature_cleaner(df):
     md = df.copy()
     md = drop_completely_nan_rows(md)
     md.loc[10,'education'] = np.nan # Портим одно значение затем проверяем, что оно было исправлено.
@@ -221,7 +234,7 @@ def employment_status_feature_cleaner(df:pd.DataFrame)->pd.Series:
         print(f'Фича <{fch}> не содержит пропусков.')
     return f
 
-def test_employment_status_feature_cleaner():
+def test_employment_status_feature_cleaner(df):
     md = df.copy()
     md = drop_completely_nan_rows(md)
     md.loc[10,'employment status'] = np.nan # Портим одно значение затем проверяем, что оно было исправлено.
@@ -266,7 +279,7 @@ def employment_statusDig_feature_creator(df:pd.DataFrame)->pd.Series:
     return f
 
 
-def test_employment_statusDig_feature_creator():
+def test_employment_statusDig_feature_creator(df):
     md = df.copy()
     md = drop_completely_nan_rows(md)
     md.loc[10,'employment status'] = np.nan # Портим одно значение затем проверяем, что оно было исправлено.
@@ -368,7 +381,7 @@ def ValueDig_feature_creator(df:pd.DataFrame)->pd.Series:
 
     return f
 
-def test_ValueDig_feature_creator():
+def test_ValueDig_feature_creator(df):
   md = df.copy()
   md = drop_completely_nan_rows(md)
   md ['BirthDate'] = BirthDate_feature_cleaner(md)
@@ -410,7 +423,7 @@ def JobStartDate_feature_cleaner(df:pd.DataFrame)->pd.Series:
         print(f'Фича <{fch}> не содержит пропусков.')
     return f
 
-def test_JobStartDate_feature_cleaner():
+def test_JobStartDate_feature_cleaner(df):
    md = df.copy()
    md = drop_completely_nan_rows(md)
    f = JobStartDate_feature_cleaner(md)
@@ -747,7 +760,7 @@ def CarierLevel_feature_creator(df:pd.DataFrame)->pd.Series:
     CarierLevel = f1
     return CarierLevel
 
-def test_CarierLevel_feature_creator():
+def test_CarierLevel_feature_creator(df):
    md = df.copy()
    md = drop_completely_nan_rows(md)
    f = CarierLevel_feature_creator(md)
@@ -789,7 +802,7 @@ def CarierLevelDig_feature_creator(df:pd.DataFrame)->pd.Series:
     f1 = f1.replace(rate_dict, regex=True)
     return f1
 
-def test_CarierLevelDig_feature_creator():
+def test_CarierLevelDig_feature_creator(df):
    md = df.copy()
    md = drop_completely_nan_rows(md)
    f = CarierLevelDig_feature_creator(md)
@@ -822,7 +835,7 @@ def CarierVelocity_feature_creator(df:pd.DataFrame)->pd.Series:
    carier_velocity = rates/values
    return carier_velocity
 
-def test_CarierVelocity_feature_creator():
+def test_CarierVelocity_feature_creator(df):
   md = df.copy()
   md = drop_completely_nan_rows(md)
   print(CarierVelocity_feature_creator(md))
