@@ -38,7 +38,6 @@ features_creator. После этого датафрейм со всеми не�
 ответ на post запрос.
 '''
 
-
 class Item(BaseModel):          # ожидаемое значение
     BirthDate:          Any     # 0 datetime64[ns]
     education:          Any     # 1 object
