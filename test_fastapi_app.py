@@ -2,8 +2,23 @@ import pandas as pd
 import numpy as np
 import fastapi_app as api_app
 from fastapi.testclient import TestClient
-
 import sys, asyncio
+
+
+'''
+Интеграционные тесты для проверки работоспособности приложения fastapi.
+Внедрены в Workflow репозитория проекта на Github, используются для
+проверки всех поступающий pull-requests, чтобы никто не свалил приложение.
+Тесты проверяют работу приложения полностью, для этого разворачивают
+тестовый сервер fastapi, на который подается множество запросов
+с параметрами реальных клиентов из подгружаемого датасета, но
+зашумленных np.NaNs. При этом проверяется устойчивость работы
+приложения в части очистки поступающих данных и расчета вероятностей
+моделями (возвращаемое ими значение также проверяется по принципу
+"является числом от 0 до 1 включительно"). Также несколько простых тестов
+обращения к корневой и информационным страницам (проверяю возврат
+соответствующих картинок).
+'''
 
 
 if sys.platform == "win32" and (3, 8, 0) <= sys.version_info < (3, 9, 0):
@@ -51,6 +66,7 @@ def test_oraqul():
         ]
     df = df.drop(banks, axis='columns')
     df = df.dropna(how='all')
+    # Здесь зашумляем датасет случайными пропусками
     for col in df.columns:
         sample_index =  df.sample(round(df.shape[0] * 0.1)).index
         df.loc[sample_index, col] = np.NaN
@@ -61,7 +77,7 @@ def test_oraqul():
         )
     frame_for_send = df.sample(400).to_dict('records')
     for i in range(len(frame_for_send)):
-        json_data = df.iloc[1].to_json().encode('utf8')
+        json_data = df.iloc[i].to_json().encode('utf8')
         response = client.post('/AskOraqul/', data=json_data)
         assert response.status_code == 200
         banks_decisions = response.content.decode()[1:-1].split(',')
