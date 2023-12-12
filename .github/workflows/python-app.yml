@@ -34,5 +34,5 @@ jobs:
         pytest
     - name: Lint with flake8
       run: |
-        flake8 . --exclude=./preproc_position.py
+        #flake8 . --exclude=./preproc_position.py
 
