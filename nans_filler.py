@@ -1,5 +1,4 @@
 import os
-import numpy as np
 import pandas as pd
 import pickle
 from catboost import CatBoostClassifier
@@ -69,11 +68,11 @@ def unemployed_nansfiller(df: pd.DataFrame) -> pd.DataFrame:
     # студентами, имеют работу.
     for employment_status in UNEMPLOYED:
         df['Position'][
-            (df['employment status'] == employment_status) & 
+            (df['employment status'] == employment_status) &
             (df['JobStartDate'].isna())
         ] = 'Безработный'
         df['Value'][
-            (df['employment status'] == employment_status) & 
+            (df['employment status'] == employment_status) &
             (df['JobStartDate'].isna())
         ] = '0 месяцев 0 лет'
 
@@ -86,7 +85,7 @@ def dates_nansfiller(df: pd.DataFrame) -> pd.DataFrame:
         pd.to_datetime(pd.to_datetime(pd.Timestamp.max)), inplace=True)
     df['BirthDate'].fillna(
         pd.to_datetime(pd.to_datetime(pd.Timestamp.max)), inplace=True)
-    
+
     return df
 
 
@@ -95,18 +94,20 @@ def Yaro_ml_filler(df: pd.DataFrame) -> pd.DataFrame:
     # Перебираем датафрейм по столбцам
     for col in df.columns:
         # Создаем выборку, для которой в соответсвующем столбце есть пропуски
-        nans_frame = df[(df[col].isna())] 
+        nans_frame = df[(df[col].isna())]
         # Если созданная выборка не пустая, то заполняем пропуски моделями
         if nans_frame.shape[0]:
-            # Сначала делаем несколько преобразований только на момент заполнения
-            # пустышек, эти преобразования нужны исключительно для работы моделей.
+            # Сначала делаем несколько преобразований только на момент заполн-я
+            # пустышек, преобразования нужны исключительно для работы моделей.
             # В частности, преобразуем столбец Position, так как на его метках
             # были обучены модели.
             nans_frame['Position'] = position_preproc_by_Igor(nans_frame)
-            # Если в предикторах имеются пропуски, то заполняем их простыми стратегиями
-            nans_frame[CAT_COLUMNS] = cat_imputer.transform(nans_frame[CAT_COLUMNS])
-            nans_frame[REG_COLUMNS] = reg_imputer.transform(nans_frame[REG_COLUMNS])
-            # Переводим даты в формат "год", т.к. такой формат использовался при
+            # Если в предикторах есть пропуски, заполняем их SimpleImputers
+            nans_frame[CAT_COLUMNS] = cat_imputer.transform(
+                                                nans_frame[CAT_COLUMNS])
+            nans_frame[REG_COLUMNS] = reg_imputer.transform(
+                                                nans_frame[REG_COLUMNS])
+            # Переводим даты в формат "год", такой формат использовался при
             # обучении моделей.
             nans_frame['BirthDate'] = nans_frame['BirthDate'].dt.year
             nans_frame['JobStartDate'] = nans_frame['JobStartDate'].dt.year
