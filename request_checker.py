@@ -105,72 +105,72 @@ def check_n_fill(item) -> pd.DataFrame:
     in_frame = pd.DataFrame(columns=REQUEST_STRUCTURE, index=[1])
     try:
         in_frame['BirthDate'] = pd.to_datetime(item.BirthDate)
-    except:
+    except Exception:
         in_frame['BirthDate'] = np.NaN
     try:
         if item.education in EDUCATION_VAL:
             in_frame['education'] = item.education
-    except:
+    except Exception:
         in_frame['education'] = np.NaN
     try:
         if item.employment_status in EMPLOYMENT_STATUS_VAL:
             in_frame['employment status'] = item.employment_status
-    except:
+    except Exception:
         in_frame['employment status'] = np.NaN
     try:
         if item.Value in VALUE_VAL:
             in_frame['Value'] = item.Value
-    except:
+    except Exception:
         in_frame['Value'] = np.NaN
     try:
         in_frame['JobStartDate'] = pd.to_datetime(item.JobStartDate)
-    except:
+    except Exception:
         in_frame['JobStartDate'] = np.NaN
     try:
         in_frame['Position'] = item.Position
-    except:
+    except Exception:
         in_frame['Position'] = np.NaN
     try:
         in_frame['MonthProfit'] = float(item.MonthProfit)
-    except:
+    except Exception:
         in_frame['MonthProfit'] = np.NaN
     try:
         in_frame['MonthExpense'] = float(item.MonthExpense)
-    except:
+    except Exception:
         in_frame['MonthExpense'] = np.NaN
-    try:        
+    try:
         in_frame['Gender'] = int(item.Gender)
-    except:
-        in_frame['Gender'] = np.NaN    
+    except Exception:
+        in_frame['Gender'] = np.NaN
     try:
         if item.Family_status in FAMILY_STATUS_VAL:
             in_frame['Family status'] = item.Family_status
-    except:
+    except Exception:
         in_frame['Family status'] = np.NaN
-    try:        
+    try:
         in_frame['ChildCount'] = int(item.ChildCount)
-    except:
+    except Exception:
         in_frame['ChildCount'] = np.NaN
-    try:        
+    try:
         in_frame['SNILS'] = int(item.SNILS)
-    except:
+    except Exception:
         in_frame['SNILS'] = np.NaN
-    try:        
+    try:
         in_frame['Merch_code'] = int(item.Merch_code)
-    except:
+    except Exception:
         in_frame['Merch_code'] = np.NaN
-    try:        
+    try:
         in_frame['Loan_amount'] = float(item.Loan_amount)
-    except:
+    except Exception:
         in_frame['Loan_amount'] = np.NaN
-    try:        
+    try:
         in_frame['Loan_term'] = int(item.Loan_term)
-    except:
+    except Exception:
         in_frame['Loan_term'] = np.NaN
     try:
         if item.Goods_category in GOODS_CATEGORY_VAL:
             in_frame['Goods_category'] = item.Goods_category
-    except:
+    except Exception:
         in_frame['Goods_category'] = np.NaN
 
     return in_frame

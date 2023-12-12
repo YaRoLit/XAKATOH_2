@@ -1,13 +1,11 @@
 import pandas as pd
 import numpy as np
-
 from sklearn.impute import SimpleImputer
-from sklearn.metrics import accuracy_score, mean_squared_error
-
+from sklearn.metrics import mean_squared_error
 import warnings
-warnings.simplefilter(action='ignore')
-
 import nans_filler
+
+warnings.simplefilter(action='ignore')
 
 
 '''
@@ -32,15 +30,11 @@ CLS_FEATURES = ['education',
                 'SNILS',
                 'Merch_code',
                 'Loan_term',
-                'Goods_category'
-]
+                'Goods_category']
 
-REG_FEATURES = [#'BirthDate',
-                #'JobStartDate',
-                'MonthProfit',
+REG_FEATURES = ['MonthProfit',
                 'MonthExpense',
-                'Loan_amount'
-]
+                'Loan_amount']
 
 
 def cat_num_split(df: pd.DataFrame) -> tuple:
@@ -90,7 +84,6 @@ def create_frame_with_nans(df: pd.DataFrame) -> tuple:
 def simple_strategy_nansfiller(df: pd.DataFrame) -> pd.DataFrame:
     '''Заполняем np.NaN простыми стратегиями для примера'''
     df = df.copy()
-    #cat_columns, num_columns = cat_num_split(df_test)
     df[datetime_columns].fillna(df[datetime_columns].median(), inplace=True)
     cat_imputer = SimpleImputer(strategy='most_frequent')
     num_imputer = SimpleImputer(strategy='mean')
@@ -114,7 +107,7 @@ def calc_nansfiller_quality_score(
     где истинное_значение == предсказанному_значению, после чего
     полученное число делится на общее количество строк в массиве.
     Либо можно использовать метрику Accuracy.
-    - для числовых столбцов я остановился на среднем RMSE для всех 
+    - для числовых столбцов я остановился на среднем RMSE для всех
     числовых столбцов КМК это не вполне корректное решение.
     '''
     # Переводим столбцы datetime.dtypes в формат timestamp
@@ -123,10 +116,8 @@ def calc_nansfiller_quality_score(
     for col in CLS_FEATURES:
         y_true = df_real.loc[nans_rows_index[col], col]
         y_pred = df_pred.loc[nans_rows_index[col], col]
-        #print(y_pred, y_true)
-        #cat_score[col] = accuracy_score(y_true, y_pred)
         score[col] = (y_true == y_pred)
-        score[col] = score[col].sum()# / y_true.shape[0]
+        score[col] = score[col].sum()
         score[col] = str(f'{round(score[col], 4)} True')
 
     for col in REG_FEATURES:
@@ -134,20 +125,18 @@ def calc_nansfiller_quality_score(
         y_pred = df_pred.loc[nans_rows_index[col], col]
         score[col] = mean_squared_error(y_true, y_pred) ** 0.5
         score[col] = str(f'{round(score[col])} RMSE')
-        #num_score[col] = np.mean(
-        #    (y_true - y_pred) / max(y_true.max(), y_pred.max()))
-    
+
     return score
 
 
 def result_shower(*score_dicts) -> None:
     '''Выводим сравнительную таблицу по испытаниям пайплайнов'''
-    print('===================================================================')
+    print('==================================================================')
     print(f'В df заполнено NaN {round(df.shape[0] * 0.4)} значений в столбцах')
-    print('===================================================================')
+    print('==================================================================')
     score_table = pd.DataFrame(index=score_dicts[0].keys())
     for idx, score in enumerate(score_dicts):
-        score_table[idx]= score.values()
+        score_table[idx] = score.values()
     print(score_table)
 
 
@@ -161,7 +150,7 @@ if __name__ == "__main__":
         )
     # Сбрасываем столбцы с целевыми переменными
     df_real = target_columns_dropper(df)
-    # Создаем выборку, зашумленную NaNs, и их индексы по колонкам 
+    # Создаем выборку, зашумленную NaNs, и их индексы по колонкам
     df_test, nans_rows_index = create_frame_with_nans(df_real)
     # Создаем первую очищенную выборку при помощи простых стратегий заполнения
     df_simple = simple_strategy_nansfiller(df_test)
@@ -173,5 +162,5 @@ if __name__ == "__main__":
     # Считаем метрику качества заполнения Yaro стратегией
     score_Yaro_strategy = calc_nansfiller_quality_score(
         df_real, df_Yaro, nans_rows_index)
-    
+
     result_shower(score_simple_strategy, score_Yaro_strategy)

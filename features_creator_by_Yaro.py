@@ -4,9 +4,9 @@ from datetime import date
 from preproc_position import position_preproc_by_Igor
 
 
-#==============================================================================
+# =============================================================================
 # Новые признаки от Ярослава
-#==============================================================================
+# =============================================================================
 def Age_feature_creator(df: pd.DataFrame) -> pd.Series:
     '''Создаем признак "возраст"'''
     df = df.copy()
@@ -36,24 +36,24 @@ def Payment_to_income(df: pd.DataFrame) -> pd.Series:
     return monthly_payment / df['MonthProfit']
 
 
-#==============================================================================
+# =============================================================================
 # Пайплайн для сбора новых фич для используемой модели
-#==============================================================================
+# =============================================================================
 def features_creator_pipe(df: pd.DataFrame) -> pd.DataFrame:
-   '''Пайплайн  создания признаков, необходимых для работы модели'''
-   df = df.copy()
-   # Преобразование столбца Position
-   df['Position'] = position_preproc_by_Igor(df)
-   # Вводим числовой признак "возраст", сбрасываем дату рождения
-   df['Age'] = Age_feature_creator(df)
-   df.drop(['BirthDate'], axis='columns', inplace=True)
-   # Вводим числовой признак "стаж", сбрасываем аналогичный категориальный
-   df['NumValue'] = Num_value_feature_creator(df)
-   df.drop(['JobStartDate', 'Value'], axis='columns', inplace=True)
-   # Вводим числовой признак отношения платежа к доходу
-   df['Payment_to_income'] = Payment_to_income(df)
-   # Сбрасываем все исходные признаки, коррелированные с Payment_to_income
-   df.drop(['MonthProfit', 'MonthExpense', 'Loan_amount', 'Loan_term'],
-           axis='columns', inplace=True)
+    '''Пайплайн  создания признаков, необходимых для работы модели'''
+    df = df.copy()
+    # Преобразование столбца Position
+    df['Position'] = position_preproc_by_Igor(df)
+    # Вводим числовой признак "возраст", сбрасываем дату рождения
+    df['Age'] = Age_feature_creator(df)
+    df.drop(['BirthDate'], axis='columns', inplace=True)
+    # Вводим числовой признак "стаж", сбрасываем аналогичный категориальный
+    df['NumValue'] = Num_value_feature_creator(df)
+    df.drop(['JobStartDate', 'Value'], axis='columns', inplace=True)
+    # Вводим числовой признак отношения платежа к доходу
+    df['Payment_to_income'] = Payment_to_income(df)
+    # Сбрасываем все исходные признаки, коррелированные с Payment_to_income
+    df.drop(['MonthProfit', 'MonthExpense', 'Loan_amount', 'Loan_term'],
+            axis='columns', inplace=True)
 
-   return df
+    return df

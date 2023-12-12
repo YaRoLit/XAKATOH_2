@@ -1,8 +1,9 @@
+import sys
+import asyncio
 import pandas as pd
 import numpy as np
 import fastapi_app as api_app
 from fastapi.testclient import TestClient
-import sys, asyncio
 
 
 '''
@@ -68,11 +69,11 @@ def test_oraqul():
     df = df.dropna(how='all')
     # Здесь зашумляем датасет случайными пропусками
     for col in df.columns:
-        sample_index =  df.sample(round(df.shape[0] * 0.1)).index
+        sample_index = df.sample(round(df.shape[0] * 0.1)).index
         df.loc[sample_index, col] = np.NaN
     df.rename(
         columns={"employment status": "employment_status",
-                 "Family status": "Family_status"}, 
+                 "Family status": "Family_status"},
         inplace=True
         )
     frame_for_send = df.sample(400).to_dict('records')
