@@ -3,17 +3,17 @@
 # ХАКАТОН УрФУ 12/2023. Проект от заказчика ["Платежная система Mandarin"](https://mandarin.io/ru)
 Цель проекта: создание и развертывание приложения на основе ML-моделей кредитного скоринга, обученных на предоставленном заказчиком наборе данных, для определения вероятности получения клиентами платежной системы кредита в банках в целях повышения конверсии бизнеса.
 
-[1. Описание работы приложения](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#Краткое-описание)
+[1. Описание работы приложения](https://github.com/YaRoLit/XAKATOH_2/blob/main/README.md#Краткое-описание)
 
-[2. Работа с приложением](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#Использование-приложения)
+[2. Работа с приложением](https://github.com/YaRoLit/XAKATOH_2/blob/main/README.md#Использование-приложения)
 
-[2.1. Приложение в облаке](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#Способ-1-(самый-простой):-использование-развернутого-приложения)
+[2.1. Приложение в облаке](https://github.com/YaRoLit/XAKATOH_2/blob/main/README.md#Способ-1-(самый-простой):-использование-развернутого-приложения)
 
-[2.2. Развёртывание локально](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#Способ-2:-запуск-на-локальном-сервере)
+[2.2. Развёртывание локально](https://github.com/YaRoLit/XAKATOH_2/blob/main/README.md#Способ-2:-запуск-на-локальном-сервере)
 
-[3. Структура репозитория, описание работы модулей](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#Подробное-описание-структуры-репозитория)
+[3. Структура репозитория, описание работы модулей](https://github.com/YaRoLit/XAKATOH_2/blob/main/README.md#Подробное-описание-структуры-репозитория)
 
-[4. Авторы](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#Команда)
+[4. Авторы](https://github.com/YaRoLit/XAKATOH_2/blob/main/README.md#Команда)
 
 ## Краткое описание
 
