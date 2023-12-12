@@ -5,7 +5,7 @@ from preproc_position import position_preproc_by_Igor
 
 
 #==============================================================================
-# Новые фичи от Ярослава
+# Новые признаки от Ярослава
 #==============================================================================
 def Age_feature_creator(df: pd.DataFrame) -> pd.Series:
     '''Создаем признак "возраст"'''
@@ -39,7 +39,7 @@ def Payment_to_income(df: pd.DataFrame) -> pd.Series:
 #==============================================================================
 # Пайплайн для сбора новых фич для используемой модели
 #==============================================================================
-def Yaro_features_creator_pipe(df: pd.DataFrame) -> pd.DataFrame:
+def features_creator_pipe(df: pd.DataFrame) -> pd.DataFrame:
    '''Пайплайн  создания признаков, необходимых для работы модели'''
    df = df.copy()
    # Преобразование столбца Position
@@ -52,6 +52,7 @@ def Yaro_features_creator_pipe(df: pd.DataFrame) -> pd.DataFrame:
    df.drop(['JobStartDate', 'Value'], axis='columns', inplace=True)
    # Вводим числовой признак отношения платежа к доходу
    df['Payment_to_income'] = Payment_to_income(df)
+   # Сбрасываем все исходные признаки, коррелированные с Payment_to_income
    df.drop(['MonthProfit', 'MonthExpense', 'Loan_amount', 'Loan_term'],
            axis='columns', inplace=True)
 
