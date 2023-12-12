@@ -78,7 +78,7 @@ $ python3 fastapi_app.py
 <img src = 'https://github.com/YaRoLit/XAKATOH_2_api/blob/main/images/logo.png' alt = 'Team logo' align='center'/>
 
 - T: Маухедтинова Татьяна ([Tatiana302](https://github.com/Tatiana302)): подготовка [readme](https://github.com/YaRoLit/XAKATOH_2/blob/main/README.md), помощь в EDA.
-- A: Андрей Крупский ([KrupskiiAndrei](https://github.com/KrupskiiAndrei)): проектный менеджмент, подготовка [проекта решения]([https://drive.google.com/drive/folders/1jLRhhi1YGvK_-AuE3hHhz9STdQWXBpgr?usp=sharing](https://docs.google.com/document/d/1ftHe8Kgonay7vcks1CiJXJk4O8QZuT4i/edit?usp=sharing&ouid=116001960258803646275&rtpof=true&sd=true)), креативные решения.
+- A: Андрей Крупский ([KrupskiiAndrei](https://github.com/KrupskiiAndrei)): проектный менеджмент, подготовка [проекта решения](https://docs.google.com/document/d/1ftHe8Kgonay7vcks1CiJXJk4O8QZuT4i/edit?usp=sharing&ouid=116001960258803646275&rtpof=true&sd=true), креативные решения.
 - I: Игорь Пластов ([chetverovod](https://github.com/chetverovod)): создания [конвейера обработки данных]((https://github.com/YaRoLit/XAKATOH_2/blob/main/Data_preproc/preproc_position.py)), помощь разработке API, обучение моделей.
 - S: Станислав Вдовин ([Stasvdovin](https://github.com/Stasvdovin)): помощь в обработке данных и обучении моделей.
 - A: Анна Гулич ([Illania](https://github.com/Illania)): Общее руководство командой, EDA, выбор и создание моделей ML.
