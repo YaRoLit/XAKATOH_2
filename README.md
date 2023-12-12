@@ -1,33 +1,33 @@
 [![Tests](https://github.com/YaRoLit/XAKATOH_2_api/actions/workflows/python-app.yml/badge.svg)](https://github.com/YaRoLit/XAKATOH_2_api/actions/workflows/python-app.yml)
 
-# ХАКАТОН УрФУ 12/2023. Проект от заказчика ["Платежная система Mandarin".](https://mandarin.io/ru)
-Цель проекта: создание и развертывание приложения на основе ML-моделей кредитного скоринга, обученных на предоставленном заказчиком наборе данных, для определения вероятности получения клиентами платежной системы кредита в банках, для повышения конверсии бизнеса.
+# ХАКАТОН УрФУ 12/2023. Проект от заказчика ["Платежная система Mandarin"](https://mandarin.io/ru)
+Цель проекта: создание и развертывание приложения на основе ML-моделей кредитного скоринга, обученных на предоставленном заказчиком наборе данных, для определения вероятности получения клиентами платежной системы кредита в банках в целях повышения конверсии бизнеса.
 
-## About:
+[1. Описание работы приложения](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#Краткое-описание)
 
-[1. Описание работы приложения](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#Short-Description)
+[2. Работа с приложением](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#Использование-приложения)
 
-[2. Работа с приложением](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#How-to-Try-the-App)
+[2.1. Приложение в облаке](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#Способ-1-(самый-простой):-использование-развернутого-приложения)
 
-[2.1. Приложение в облаке](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#Option-1-(the-easiest-one):-Use-the-Pre-deployed-App)
+[2.2. Развёртывание локально](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#Способ-2:-запуск-на-локальном-сервере)
 
-[2.2. Развёртывание локально](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#Option-2:-Run-the-localy)
+[3. Структура репозитория, описание работы модулей](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#Подробное-описание-структуры-репозитория)
 
-[3. Структура репозитория, описание работы модулей](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#Full-Description)
+[4. Авторы](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#Команда)
 
-[4. Авторы](https://github.com/YaRoLit/XAKATOH_2_api/blob/main/README.md#Authors)
-
-## Short Description
+## Краткое описание
 
 Приложение создано на основе веб-фреймворка fastapi, с помощью которого реализуется клиент-серверный интерфейс передачи post-запросов с клиентскими данными и получения предсказаний моделей о вероятностях одобрения решения о предоставлении кредитов пятью исследуемыми банками (Bank_A...Bank_E).
 
-### Option 1 (the easiest one): Use the Pre-deployed App
+## Использование приложения
+
+### Способ 1 (самый простой): использование развернутого приложения
 
 На период проведения Хакатона приложение развёрнуто на [виртуальной машине в Яндекс облаке](http://158.160.135.101:5000/). Слайд с описанием json структуры post-запроса для получения предсказания моделей находится на странице [/info/](http://158.160.135.101:5000/info/). API для направления post-запросов с данными находится на странице [/AskOraqul/](http://158.160.135.101:5000/AskOraqul/).
 
 На странице проекта расположен файл Yupiter notebook с [пользовательским интерфесом отправки post-запросов на сервер](https://github.com/YaRoLit/XAKATOH_2/blob/main/Data_preproc/UI-tests.ipynb), в котором описаны несколько различных вариантов запросов (единичный запрос и отправка серии запросов по табличным данным).
 
-### Option 2: Run the localy
+### Способ 2: запуск на локальном сервере
 
 Клонируйте репозиторий:
 ```
@@ -43,7 +43,7 @@ $ python3 fastapi_app.py
 ```
 На странице проекта расположен файл Yupiter notebook с [пользовательским интерфесом отправки post-запросов на сервер](https://github.com/YaRoLit/XAKATOH_2/blob/main/Data_preproc/UI-tests.ipynb), в котором описаны несколько различных вариантов запросов (единичный запрос и отправка серии запросов по табличным данным). Для отправки тестовых запросов на локальный сервер, необходимо указать адрес локального сервера (по умолчанию 127.0.0.1:5000). 
 
-## Full Description
+## Подробное описание структуры репозитория
 
 Репозиторий содержит следующие папки и файлы. Основные файлы:
 
@@ -73,7 +73,7 @@ $ python3 fastapi_app.py
 
 В указанных файлах приведено подробное описание их работы в целом, а также отдельных функций и блоков кода.  
 
-## Authors
+## Команда
 
 <img src = 'https://github.com/YaRoLit/XAKATOH_2_api/blob/main/images/logo.png' alt = 'Team logo' align='center'/>
 
