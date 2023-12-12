@@ -33,7 +33,7 @@ import csv
 def position_preproc_by_Anna(position):
     """
     Calculates "Position" column value based on regular expression patterns
-    from patterns.csv. If the position doesn't match any pattern set it to 
+    from patterns.csv. If the position doesn't match any pattern set it to
     default value "Прочие".
     """
     newPosition = "прочие"
@@ -48,7 +48,7 @@ def position_preproc_by_Anna(position):
         regex = re.compile(pattern)
         if regex.match(position):
             newPosition = patterns[pattern]
-      
+
     return newPosition
 
 
@@ -91,7 +91,7 @@ def calc_dist(
         result_dist = min(list_of_word)
     except Exception:
         result_dist = 100
-    
+
     return result_dist
 
 
@@ -114,7 +114,7 @@ def load_model():
 
 def position_to_dist(df: pd.DataFrame) -> pd.Series:
     '''
-    Функция преобразовывает столбец "Position" к числовому виду 
+    Функция преобразовывает столбец "Position" к числовому виду
     путем расчета расстояния между эмбедингами слов "руководитель"
     и должности, указанной в данном столбце. Вариант от Ярослава.
     '''
@@ -166,7 +166,7 @@ def position_preproc_by_Igor(df: pd.DataFrame) -> pd.Series:
             'полномочный представитель президента',
             'председатель наблюдательского совета',
             'президент'
-            ]   
+            ]
     for s in L_7:
         f1 = f1.mask(lambda x: x == s, other='ДИР1')
 
@@ -455,7 +455,7 @@ def position_preproc_by_Igor(df: pd.DataFrame) -> pd.Series:
        ]
     for s in L_2:
         f1 = f1.mask(lambda x: x == s, other='СРЕДНЕЕ_ЗВЕНО')
-        
+
     L_1 = [
            'лесной пожарный',
            'мастер бровист',
@@ -475,7 +475,7 @@ def position_preproc_by_Igor(df: pd.DataFrame) -> pd.Series:
            'санитар',
            'медбрат',
            "уборщик",
-           "сиделка",   
+           "сиделка",
            "водитель",
            "продавец",
            "прода",
