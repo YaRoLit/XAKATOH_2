@@ -74,8 +74,9 @@ $ python3 fastapi_app.py
 В указанных файлах приведено подробное описание их работы в целом, а также отдельных функций и блоков кода.  
 
 ## Команда
-
-<img src = 'https://github.com/YaRoLit/XAKATOH_2_api/blob/main/images/logo.png' alt = 'Team logo' align='center'/>
+<p align="center">
+<img src = './images/logo.png' alt = 'Team logo' align='center'/>
+</p>
 
 - T: Татьяна Маухедтинова ([Tatiana302](https://github.com/Tatiana302)): подготовка [readme](https://github.com/YaRoLit/XAKATOH_2/blob/main/README.md), помощь в EDA.
 - A: Андрей Крупский ([KrupskiiAndrei](https://github.com/KrupskiiAndrei)): проектный менеджмент, подготовка [проекта решения](https://docs.google.com/document/d/1ftHe8Kgonay7vcks1CiJXJk4O8QZuT4i/edit?usp=sharing&ouid=116001960258803646275&rtpof=true&sd=true), креативные решения.
