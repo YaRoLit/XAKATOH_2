@@ -38,7 +38,7 @@ def position_preproc_by_Anna(position):
     """
     if position is None:
         return "безработный"
-    
+
     newPosition = "прочие"
     position = position.lower().strip()
 
