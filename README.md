@@ -17,15 +17,15 @@
 
 ## Краткое описание
 
-Приложение создано на основе веб-фреймворка fastapi, с помощью которого реализуется клиент-серверный интерфейс передачи post-запросов с клиентскими данными и получения предсказаний моделей о вероятностях одобрения решения о предоставлении кредитов пятью исследуемыми банками (Bank_A...Bank_E).
+Приложение создано на основе веб-фреймворка *FastAPI*, с помощью которого реализуется клиент-серверный интерфейс передачи POST-запросов с клиентскими данными и получения предсказаний моделей о вероятностях одобрения решения о предоставлении кредитов пятью исследуемыми банками (*Bank_A...Bank_E*).
 
 ## Использование приложения
 
 ### Способ 1 (самый простой): использование развернутого приложения
 
-На период проведения Хакатона приложение развёрнуто на [виртуальной машине в Яндекс облаке](http://158.160.135.101:5000/). Слайд с описанием json структуры post-запроса для получения предсказания моделей находится на странице [/info/](http://158.160.135.101:5000/info/). API для направления post-запросов с данными находится на странице [/AskOraqul/](http://158.160.135.101:5000/AskOraqul/).
+На период проведения Хакатона приложение развёрнуто на [виртуальной машине в Яндекс облаке](http://158.160.135.101:5000/). Слайд с описанием JSON структуры POST-запроса для получения предсказания моделей находится на странице [/info/](http://158.160.135.101:5000/info/). API для направления POST-запросов с данными находится на странице [/AskOraqul/](http://158.160.135.101:5000/AskOraqul/).
 
-На странице проекта расположен файл Yupiter notebook с [пользовательским интерфесом отправки post-запросов на сервер](https://github.com/YaRoLit/XAKATOH_2/blob/main/UI_tests.ipynb), в котором описаны несколько различных вариантов запросов (единичный запрос и отправка серии запросов по табличным данным).
+На странице проекта расположен файл Jupyter notebook с [пользовательским интерфейсом отправки POST-запросов на сервер](https://github.com/YaRoLit/XAKATOH_2/blob/main/UI_tests.ipynb), в котором описаны несколько различных вариантов запросов (единичный запрос и отправка серии запросов по табличным данным).
 
 ### Способ 2: запуск на локальном сервере
 
@@ -41,7 +41,7 @@ $ cd XAKATOH_2 && pip install -r requirements.txt
 ```
 $ python3 fastapi_app.py
 ```
-На странице проекта расположен файл Yupiter notebook с [пользовательским интерфесом отправки post-запросов на сервер](https://github.com/YaRoLit/XAKATOH_2/blob/main/UI_tests.ipynb), в котором описаны несколько различных вариантов запросов (единичный запрос и отправка серии запросов по табличным данным). Для отправки тестовых запросов на локальный сервер, необходимо указать адрес локального сервера (по умолчанию 127.0.0.1:5000). 
+На странице проекта расположен файл Jupyter notebook с [пользовательским интерфейсом отправки POST-запросов на сервер](https://github.com/YaRoLit/XAKATOH_2/blob/main/UI_tests.ipynb), в котором описаны несколько различных вариантов запросов (единичный запрос и отправка серии запросов по табличным данным). Для отправки тестовых запросов на локальный сервер, необходимо указать адрес локального сервера (по умолчанию 127.0.0.1:5000). 
 
 ## Подробное описание структуры репозитория
 
@@ -49,7 +49,7 @@ $ python3 fastapi_app.py
 
 - Основной скрипт развертывания сервера для работы приложения [fastapi_app.py](https://github.com/YaRoLit/XAKATOH_2/blob/main/fastapi_app.py). Необходим для запуска приложения, все остальные находящиеся в репозитории скрипты являются его вспомогательными модулями.
 
-- Модуль предобработчика post-запросов, фильтрации поступивших данных и их преобразования в Pandas dataframe [request_checker.py](https://github.com/YaRoLit/XAKATOH_2/blob/main/request_checker.py).
+- Модуль предобработчика POST-запросов, фильтрации поступивших данных и их преобразования в Pandas dataframe [request_checker.py](https://github.com/YaRoLit/XAKATOH_2/blob/main/request_checker.py).
 
 - Модуль c четырехступенчатым конвейером заполнения пропущенных значений в поступившем фрейме данных [nans_filler.py](https://github.com/YaRoLit/XAKATOH_2/blob/main/nans_filler.py).
 
@@ -59,13 +59,13 @@ $ python3 fastapi_app.py
 
 Вспомогательные файлы:
 
-- Yupiter notebook с простым пользовательским интерфейсом создания и отправки post-запросов на сервер, получения ответа от моделей ML. [UI_tests.ipynb](https://github.com/YaRoLit/XAKATOH_2/blob/main/UI_tests.ipynb).
+- Jupyter notebook с простым пользовательским интерфейсом создания и отправки POST-запросов на сервер, получения ответа от моделей ML. [UI_tests.ipynb](https://github.com/YaRoLit/XAKATOH_2/blob/main/UI_tests.ipynb).
 
 - Интеграционные тесты приложения, встроенные в рабочее окружение репозитория [test_fastapi_app.py](https://github.com/YaRoLit/XAKATOH_2/blob/main/test_fastapi_app.py).
 
 - Тестер качества заполнения пропусков при использовании различных стратегий [nansfiller_tester.py](https://github.com/YaRoLit/XAKATOH_2/blob/main/nansfiller_tester.py).
 
-- Каталог с Yupiter notebooks для создания простых моделей ML, используемых в конвейере заполнения пропусков и для тестирования работоспособности API. Общая структура каталога описана в файле [README.md](https://github.com/YaRoLit/XAKATOH_2/blob/main/service_nb/README.md).
+- Каталог с Jupyter notebooks для создания простых моделей ML, используемых в конвейере заполнения пропусков и для тестирования работоспособности API. Общая структура каталога описана в файле [README.md](https://github.com/YaRoLit/XAKATOH_2/blob/main/service_nb/README.md).
 
 - Каталог с изображениями (лого команды и информационный слайд) используемыми при работе сервера fastapi при обращении к соответствующим страницам. [README.md](https://github.com/YaRoLit/XAKATOH_2/blob/main/images/README.md).
 
@@ -77,7 +77,7 @@ $ python3 fastapi_app.py
 
 <img src = 'https://github.com/YaRoLit/XAKATOH_2_api/blob/main/images/logo.png' alt = 'Team logo' align='center'/>
 
-- T: Маухедтинова Татьяна ([Tatiana302](https://github.com/Tatiana302)): подготовка [readme](https://github.com/YaRoLit/XAKATOH_2/blob/main/README.md), помощь в EDA.
+- T: Татьяна Маухедтинова ([Tatiana302](https://github.com/Tatiana302)): подготовка [readme](https://github.com/YaRoLit/XAKATOH_2/blob/main/README.md), помощь в EDA.
 - A: Андрей Крупский ([KrupskiiAndrei](https://github.com/KrupskiiAndrei)): проектный менеджмент, подготовка [проекта решения](https://docs.google.com/document/d/1ftHe8Kgonay7vcks1CiJXJk4O8QZuT4i/edit?usp=sharing&ouid=116001960258803646275&rtpof=true&sd=true), креативные решения.
 - I: Игорь Пластов ([chetverovod](https://github.com/chetverovod)): создания [конвейера обработки данных]((https://github.com/YaRoLit/XAKATOH_2/blob/main/Data_preproc/preproc_position.py)), помощь разработке API, обучение моделей.
 - S: Станислав Вдовин ([Stasvdovin](https://github.com/Stasvdovin)): помощь в обработке данных и обучении моделей.
