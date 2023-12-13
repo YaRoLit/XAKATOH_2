@@ -9,3 +9,4 @@ catboost
 fastapi
 pydantic
 flake8
+pycaret

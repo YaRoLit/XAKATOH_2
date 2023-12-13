@@ -1,4 +1,3 @@
-import pickle
 from fastapi import FastAPI
 from fastapi.responses import Response
 from typing import Any
@@ -7,6 +6,7 @@ import uvicorn
 from request_checker import check_n_fill
 from nans_filler import fill_nans_pipe
 from features_creator_by_Yaro import features_creator_pipe
+from get_predictions import get_predictions
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -102,29 +102,12 @@ def get_model_prediction(item: Item):
     df = features_creator_pipe(df)
     # Загружаем модели, рассчитываем вероятности
     # Теоретически, модели можно загружать сразу при объявлении глобальных
-    # переменных скрипта, а не в теле фунции. При этом увеличится
+    # переменных скрипта, а не в теле функции. При этом увеличится
     # быстродействие скрипта, так как модели будут в оперативной памяти.
     # Но при приведенном ниже варианте загрузки файлы моделей можно поменять
     # "на горячую", не останавливая работу скрипта, а просто перезаписав
     # их в соответствующей папке.
-    model_A = pickle.load(open('./models/BankA_decision.cls', 'rb'))
-    pred_A = model_A.predict(df, prediction_type='Probability')[:, -1]
-    model_B = pickle.load(open('./models/BankB_decision.cls', 'rb'))
-    pred_B = model_B.predict(df, prediction_type='Probability')[:, -1]
-    model_C = pickle.load(open('./models/BankC_decision.cls', 'rb'))
-    pred_C = model_C.predict(df, prediction_type='Probability')[:, -1]
-    model_D = pickle.load(open('./models/BankD_decision.cls', 'rb'))
-    pred_D = model_D.predict(df, prediction_type='Probability')[:, -1]
-    model_E = pickle.load(open('./models/BankE_decision.cls', 'rb'))
-    pred_E = model_E.predict(df, prediction_type='Probability')[:, -1]
-
-    return (
-        float(pred_A),
-        float(pred_B),
-        float(pred_C),
-        float(pred_D),
-        float(pred_E)
-    )
+    return get_predictions(df)
 
 
 if __name__ == "__main__":
