@@ -1,4 +1,4 @@
-[![Tests](https://github.com/YaRoLit/XAKATOH_2_api/actions/workflows/python-app.yml/badge.svg)](https://github.com/YaRoLit/XAKATOH_2_api/actions/workflows/python-app.yml)
+[![Tests](.github/workflows/python-app.yml/badge.svg)](.github/workflows/python-app.yml)
 
 # ХАКАТОН УрФУ 12/2023. Проект от заказчика <br>["Платежная система Mandarin"](https://mandarin.io/ru)
 Цель проекта: создание и развертывание приложения на основе ML-моделей кредитного скоринга, обученных на предоставленном заказчиком наборе данных, для определения вероятности получения клиентами платежной системы кредита в банках в целях повышения конверсии бизнеса.
