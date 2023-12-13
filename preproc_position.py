@@ -36,6 +36,9 @@ def position_preproc_by_Anna(position):
     from patterns.csv. If the position doesn't match any pattern set it to
     default value "Прочие".
     """
+    if position is None:
+        return "безработный"
+    
     newPosition = "прочие"
     position = position.lower().strip()
 
