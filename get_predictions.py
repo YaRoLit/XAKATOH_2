@@ -1,23 +1,23 @@
-import pickle
+from pycaret.classification import load_model, predict_model
 import pandas as pd
 
 
 def get_predictions(df: pd.DataFrame) -> tuple:
     '''Загружаем модели, рассчитываем вероятности.'''
-    model_A = pickle.load(open('./models/BankA_decision.cls', 'rb'))
-    pred_A = model_A.predict(df, prediction_type='Probability')[:, -1]
+    model_A = load_model('./models/BankA_best')
+    pred_A = predict_model(model_A, df, raw_score=True).prediction_score_1
 
-    model_B = pickle.load(open('./models/BankB_decision.cls', 'rb'))
-    pred_B = model_B.predict(df, prediction_type='Probability')[:, -1]
+    model_B = load_model('./models/BankB_best')
+    pred_B = predict_model(model_B, df, raw_score=True).prediction_score_1
 
-    model_C = pickle.load(open('./models/BankC_decision.cls', 'rb'))
-    pred_C = model_C.predict(df, prediction_type='Probability')[:, -1]
+    model_C = load_model('./models/BankC_best')
+    pred_C = predict_model(model_C, df, raw_score=True).prediction_score_1
 
-    model_D = pickle.load(open('./models/BankD_decision.cls', 'rb'))
-    pred_D = model_D.predict(df, prediction_type='Probability')[:, -1]
+    model_D = load_model('./models/BankD_best')
+    pred_D = predict_model(model_D, df, raw_score=True).prediction_score_1
 
-    model_E = pickle.load(open('./models/BankE_decision.cls', 'rb'))
-    pred_E = model_E.predict(df, prediction_type='Probability')[:, -1]
+    model_E = load_model('./models/BankE_best')
+    pred_E = predict_model(model_E, df, raw_score=True).prediction_score_1
 
     return (
         float(pred_A),
