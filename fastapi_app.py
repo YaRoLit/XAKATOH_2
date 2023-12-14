@@ -5,8 +5,8 @@ from pydantic import BaseModel
 import uvicorn
 from request_checker import check_n_fill
 from nans_filler import fill_nans_pipe
-from features_creator_by_Yaro import features_creator_pipe
-from get_predictions import get_predictions
+from final_features_creator import features_creator_pipe
+from get_predictions_new import get_predictions
 import warnings
 warnings.filterwarnings("ignore")
 

@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from preproc_position import position_preproc_by_Anna
 import csv
+import json
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
 
@@ -67,13 +68,13 @@ def years_on_current_job_feature_creator(row) -> str:
         years_working_on_current_job = relativedelta(
             end_date, start_date).years
 
-    if years_working_on_current_job in range(0, 3):
+    if years_working_on_current_job in range(-9999, 3):
         return '0-3 года'
     elif years_working_on_current_job in range(3, 6):
         return '3-6 лет'
     elif years_working_on_current_job in range(6, 10):
         return '6-10 лет'
-    elif years_working_on_current_job in range(10, 100):
+    elif years_working_on_current_job in range(10, 9999):
         return 'больше 10 лет'
 
 
@@ -87,7 +88,7 @@ def age_group_feature_creator(row) -> str:
     start_date = row["BirthDate"]
     age = relativedelta(end_date, start_date).years
 
-    if age in range(0, 18):
+    if age in range(-9999, 18):
         return '0-18'
     elif age in range(18, 21):
         return '18-21'
@@ -101,7 +102,7 @@ def age_group_feature_creator(row) -> str:
         return '55-75'
     elif age in range(75, 85):
         return '75-85'
-    elif age in range(85, 130):
+    elif age in range(85, 9999):
         return '85+'
 
 
@@ -166,4 +167,41 @@ def features_creator_pipe(df: pd.DataFrame) -> pd.DataFrame:
     df['ChildCount'] = df['ChildCount'].astype(np.int16)
     df['ProfRisk'] = df['ProfRisk'].astype(np.int16)
 
+    df = pd.get_dummies(df)
+    df = fill_dummy_columns(df)
+
     return df
+
+
+# В силу того, что при обучении нашей модели мы используем SMOTE
+# балансировку данных, а она требует использование get_dummies(),
+# модели были обучены с добавлением dummies столбцов. Данная функция
+# восстанавливает  недостающие столбцы. Конечно, неправильный подход
+# и по логике надо использовать OneHotEncoder, но это лишь временный
+# костыль, который планируется исправить в дальнейшем.
+def fill_dummy_columns(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    cat_feature_names = ['education', 'employment status', 'Value', 'Position',
+                         'Family status', 'Merch_code', 'Goods_category',
+                         'YearsWorkedOnCurrentJob', 'AgeGroup']
+
+    with open('./data/dummies.json') as cat_dict_dump:
+        cat_dict = json.load(cat_dict_dump)
+
+    cols_to_add = []
+    for col_name in cat_feature_names:
+        matched_col = df.columns[df.columns.str.startswith(pat=col_name)]
+        if (len(matched_col) > 0):
+            matched_col_name = str(matched_col[0])
+            if col_name in cat_dict:
+                list_unique_cols = cat_dict[col_name]
+                for uc in list_unique_cols:
+                    un = f"{col_name}_{uc}"
+                    if matched_col_name != un:
+                        new_col_name = f"{col_name}_{uc}"
+                        cols_to_add.append(new_col_name)
+    df = df.reset_index()
+    data_dict = dict.fromkeys(cols_to_add, [0])
+    new_df = pd.DataFrame(data=data_dict, columns=cols_to_add)
+    result = pd.concat([df, new_df], axis=1)
+    return result
