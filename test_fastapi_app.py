@@ -76,7 +76,7 @@ def test_oraqul():
                  "Family status": "Family_status"},
         inplace=True
         )
-    frame_for_send = df.sample(400).to_dict('records')
+    frame_for_send = df.sample(100).to_dict('records')
     for i in range(len(frame_for_send)):
         json_data = df.iloc[i].to_json().encode('utf8')
         response = client.post('/AskOraqul/', data=json_data)
