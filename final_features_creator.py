@@ -166,42 +166,42 @@ def features_creator_pipe(df: pd.DataFrame) -> pd.DataFrame:
     df['Gender'] = df['Gender'].astype(np.int16)
     df['ChildCount'] = df['ChildCount'].astype(np.int16)
     df['ProfRisk'] = df['ProfRisk'].astype(np.int16)
-   
-    df=pd.get_dummies(df)
+
+    df = pd.get_dummies(df)
     df = fill_dummy_columns(df)
-    
+
     return df
 
 
-# В силу того, что при обучении нашей модели мы используем SMOTE 
-# балансировку данных, а она требует использование get_dummies(), 
-# модели были обучены с добавлением dummies столбцов. Данная функция 
-# восстанавливает  недостающие столбцы. Конечно, неправильный подход 
-# и по логике надо использовать OneHotEncoder, но это лишь временный 
-# костыль, который планируется исправить в дальнейшем. 
+# В силу того, что при обучении нашей модели мы используем SMOTE
+# балансировку данных, а она требует использование get_dummies(),
+# модели были обучены с добавлением dummies столбцов. Данная функция
+# восстанавливает  недостающие столбцы. Конечно, неправильный подход
+# и по логике надо использовать OneHotEncoder, но это лишь временный
+# костыль, который планируется исправить в дальнейшем.
 def fill_dummy_columns(df: pd.DataFrame) -> pd.DataFrame:
-      df = df.copy()
-      cat_feature_names = ['education', 'employment status', 'Value', 'Position', 
-                      'Family status', 'Merch_code', 'Goods_category', 
-                      'YearsWorkedOnCurrentJob', 'AgeGroup']
-      
-      with open('./data/dummies.json') as cat_dict_dump:
-          cat_dict = json.load(cat_dict_dump)
-          
-      cols_to_add = []
-      for col_name in cat_feature_names:
-          matched_col = df.columns[df.columns.str.startswith(pat=col_name)]
-          if(len(matched_col) > 0):
-              matched_col_name = str(matched_col[0])
-              if col_name in cat_dict:
-                  list_unique_cols = cat_dict[col_name]
-                  for uc in list_unique_cols:
-                      un = f"{col_name}_{uc}"
-                      if matched_col_name!=un:
-                          new_col_name = f"{col_name}_{uc}"
-                          cols_to_add.append(new_col_name)
-      df = df.reset_index()      
-      data_dict =  dict.fromkeys(cols_to_add, [0])          
-      new_df = pd.DataFrame(data=data_dict, columns=cols_to_add)
-      result = pd.concat([df, new_df], axis=1)
-      return result
+    df = df.copy()
+    cat_feature_names = ['education', 'employment status', 'Value', 'Position',
+                         'Family status', 'Merch_code', 'Goods_category',
+                         'YearsWorkedOnCurrentJob', 'AgeGroup']
+
+    with open('./data/dummies.json') as cat_dict_dump:
+        cat_dict = json.load(cat_dict_dump)
+
+    cols_to_add = []
+    for col_name in cat_feature_names:
+        matched_col = df.columns[df.columns.str.startswith(pat=col_name)]
+        if (len(matched_col) > 0):
+            matched_col_name = str(matched_col[0])
+            if col_name in cat_dict:
+                list_unique_cols = cat_dict[col_name]
+                for uc in list_unique_cols:
+                    un = f"{col_name}_{uc}"
+                    if matched_col_name != un:
+                        new_col_name = f"{col_name}_{uc}"
+                        cols_to_add.append(new_col_name)
+    df = df.reset_index()
+    data_dict = dict.fromkeys(cols_to_add, [0])
+    new_df = pd.DataFrame(data=data_dict, columns=cols_to_add)
+    result = pd.concat([df, new_df], axis=1)
+    return result
